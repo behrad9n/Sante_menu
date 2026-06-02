@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Santé | Healthy Drinks Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#39c98a;
+      --primary-dark:#2ea66f;
+      --accent:#ff9f43;
+      --dark:#183153;
+      --light:#f8fffb;
+      --white:#ffffff;
+      --text:#333;
+      --muted:#6b7280;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:20px;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:Poppins,Vazirmatn,sans-serif;
+      background:var(--light);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    body.menu-open{
+      overflow:hidden;
+    }
+
+    [dir="rtl"]{
+      font-family:Vazirmatn,sans-serif;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      background:rgba(255,255,255,.95);
+      backdrop-filter:blur(8px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 6%;
+      box-shadow:0 2px 15px rgba(0,0,0,.08);
+      z-index:1000;
+    }
+
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .logo-link{
+      display:flex;
+      align-items:center;
+    }
+
+    .logo-img{
+      height:54px;
+      width:auto;
+      object-fit:contain;
+    }
+
+    nav ul{
+      display:flex;
+      gap:22px;
+      list-style:none;
+      align-items:center;
+    }
+
+    nav ul li a{
+      font-weight:500;
+      transition:.25s;
+    }
+
+    nav ul li a:hover{
+      color:var(--primary);
+    }
+
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .lang-btn,
+    .order-btn,
+    .menu-toggle{
+      border:none;
+      cursor:pointer;
+      border-radius:30px;
+      font-weight:600;
+      transition:.25s;
+    }
+
+    .lang-btn{
+      background:var(--primary);
+      color:#fff;
+      padding:10px 16px;
+    }
+
+    .lang-btn:hover{
+      background:var(--primary-dark);
+    }
+
+    .order-btn{
+      background:var(--accent);
+      color:#fff;
+      padding:10px 16px;
+    }
+
+    .order-btn:hover{
+      filter:brightness(.95);
+    }
+
+    .menu-toggle{
+      display:none;
+      background:var(--dark);
+      color:#fff;
+      padding:10px 14px;
+      font-size:1rem;
+    }
+
+    .hero{
+      min-height:100vh;
+      background:
+        linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.68)),
+        url('https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=1400&q=80') center/cover;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:120px 6% 60px;
+    }
+
+    .hero-box{
+      max-width:850px;
+    }
+
+    .hero h1{
+      font-size:4rem;
+      color:var(--primary);
+      margin-bottom:15px;
+    }
+
+    .hero p{
+      max-width:760px;
+      margin:0 auto 28px;
+      color:#374151;
+      font-size:1.08rem;
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:14px 28px;
+      border-radius:30px;
+      text-decoration:none;
+      font-weight:600;
+      transition:.3s;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background:#fff;
+      color:var(--dark);
+      box-shadow:var(--shadow);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .float{
+      animation:float 4s infinite ease-in-out;
+    }
+
+    @keyframes float{
+      50%{transform:translateY(-12px)}
+    }
+
+    section{
+      padding:90px 6%;
+    }
+
+    .title{
+      text-align:center;
+      margin-bottom:40px;
+    }
+
+    .title h2{
+      font-size:2.2rem;
+      color:var(--dark);
+      margin-bottom:8px;
+    }
+
+    .title p{
+      color:var(--muted);
+      max-width:700px;
+      margin:auto;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:25px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      transition:.35s;
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+    }
+
+    .card img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+    }
+
+    .card-content{
+      padding:18px;
+    }
+
+    .price{
+      color:var(--accent);
+      font-weight:700;
+      margin-top:8px;
+    }
+
+    .menu-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:24px;
+    }
+
+    .menu-category{
+      background:#fff;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:24px;
+    }
+
+    .menu-category h3{
+      color:var(--dark);
+      margin-bottom:18px;
+      font-size:1.3rem;
+      border-bottom:2px solid #eef7f2;
+      padding-bottom:10px;
+    }
+
+    .menu-item{
+      padding:16px 0;
+      border-bottom:1px dashed #e5e7eb;
+    }
+
+    .menu-item:last-child{
+      border-bottom:none;
+      padding-bottom:0;
+    }
+
+    .item-top{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      align-items:flex-start;
+      margin-bottom:8px;
+    }
+
+    .item-name{
+      font-size:1.05rem;
+      font-weight:700;
+      color:#111827;
+    }
+
+    .item-name-fa{
+      font-size:.95rem;
+      color:var(--primary-dark);
+      margin-top:3px;
+      font-weight:600;
+    }
+
+    .item-desc{
+      color:#4b5563;
+      font-size:.94rem;
+    }
+
+    .item-desc-fa{
+      color:#6b7280;
+      font-size:.92rem;
+      margin-top:4px;
+    }
+
+    .item-price{
+      white-space:nowrap;
+      color:var(--accent);
+      font-weight:700;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      text-align:center;
+    }
+
+    .stat{
+      background:#fff;
+      padding:30px;
+      border-radius:20px;
+      box-shadow:var(--shadow);
+    }
+
+    .counter{
+      font-size:2rem;
+      font-weight:700;
+      color:var(--primary);
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:15px;
+    }
+
+    .gallery img{
+      width:100%;
+      height:250px;
+      object-fit:cover;
+      border-radius:15px;
+      transition:.3s;
+    }
+
+    .gallery img:hover{
+      transform:scale(1.04);
+    }
+
+    .faq-item{
+      background:#fff;
+      margin:12px 0;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    .faq-q{
+      padding:18px;
+      cursor:pointer;
+      font-weight:700;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .faq-q::after{
+      content:'+';
+      font-size:1.2rem;
+      color:var(--primary);
+    }
+
+    .faq-item.active .faq-q::after{
+      content:'−';
+    }
+
+    .faq-a{
+      display:none;
+      padding:0 18px 18px;
+      color:#4b5563;
+    }
+
+    .contact{
+      background:linear-gradient(135deg,var(--primary),#2dcf9c);
+      color:white;
+      border-radius:25px;
+      text-align:center;
+      padding:55px 25px;
+      box-shadow:var(--shadow);
+    }
+
+    .contact h2{
+      margin-bottom:10px;
+      font-size:2rem;
+    }
+
+    .contact p{
+      margin:8px 0;
+    }
+
+    .contact-actions{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:22px;
+    }
+
+    .contact-actions a{
+      background:#fff;
+      color:var(--dark);
+      padding:12px 18px;
+      border-radius:30px;
+      font-weight:700;
+      transition:.3s;
+    }
+
+    .contact-actions a:hover{
+      transform:translateY(-2px);
+    }
+
+    .fade{
+      opacity:0;
+      transform:translateY(40px);
+      transition:1s;
+    }
+
+    .fade.show{
+      opacity:1;
+      transform:none;
+    }
+
+    footer{
+      text-align:center;
+      padding:28px;
+      color:#6b7280;
+    }
+
+    .mobile-nav{
+      position:fixed;
+      top:82px;
+      left:6%;
+      right:6%;
+      background:#fff;
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:16px;
+      display:none;
+      z-index:999;
+    }
+
+    .mobile-nav a{
+      display:block;
+      padding:12px 10px;
+      border-bottom:1px solid #f1f5f9;
+      font-weight:600;
+    }
+
+    .mobile-nav a:last-child{
+      border-bottom:none;
+    }
+
+    .mobile-nav.show{
+      display:block;
+    }
+
+    @media(max-width:900px){
+      .hero h1{
+        font-size:3rem;
+      }
+    }
+
+    @media(max-width:768px){
+      nav ul,
+      .order-btn{
+        display:none;
+      }
+
+      .menu-toggle{
+        display:inline-block;
+      }
+
+      .hero h1{
+        font-size:2.4rem;
+      }
+
+      .hero p{
+        font-size:1rem;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .item-top{
+        flex-direction:column;
+      }
+
+      .item-price{
+        margin-top:4px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-left">
+      <a href="#top" class="logo-link">
+        <img src="Sante_logo.png" alt="Santé Logo" class="logo-img">
+      </a>
+    </div>
+
+    <ul>
+      <li><a href="#featured" id="navFeatured">Featured</a></li>
+      <li><a href="#menu" id="navMenu">Menu</a></li>
+      <li><a href="#gallery" id="navGallery">Gallery</a></li>
+      <li><a href="#faq" id="navFaq">FAQ</a></li>
+      <li><a href="#contact" id="navContact">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="https://wa.me/989000000000" target="_blank" class="order-btn" id="orderBtnNav">Order Now</a>
+      <button class="lang-btn" onclick="toggleLang()">FA | EN</button>
+      <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#featured" id="mNavFeatured">Featured</a>
+    <a href="#menu" id="mNavMenu">Menu</a>
+    <a href="#gallery" id="mNavGallery">Gallery</a>
+    <a href="#faq" id="mNavFaq">FAQ</a>
+    <a href="#contact" id="mNavContact">Contact</a>
+    <a href="https://wa.me/989000000000" target="_blank" id="mNavOrder">Order Now</a>
+  </div>
+
+  <section class="hero" id="top">
+    <div class="hero-box float">
+      <h1 id="heroTitle">Fresh • Natural • Healthy</h1>
+      <p id="heroText">Premium detox drinks, smoothies, milkshakes, and healthy beverages prepared with quality ingredients and crafted for taste and wellness.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary" id="heroBtn">Explore Menu</a>
+        <a href="#contact" class="btn btn-secondary" id="heroContactBtn">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="featured" class="fade">
+    <div class="title">
+      <h2 id="featuredTitle">Featured Drinks</h2>
+      <p id="featuredText">Some of our customer favorites, prepared fresh every day.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=900&q=80" alt="Green Detox">
+        <div class="card-content">
+          <h3 id="f1Name">Green Detox</h3>
+          <p id="f1Desc">Spinach, cucumber, lemon, mint and honey.</p>
+          <p class="price">145,000 تومان</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=900&q=80" alt="Mango Smoothie">
+        <div class="card-content">
+          <h3 id="f2Name">Mango Smoothie</h3>
+          <p id="f2Desc">Mango, banana, yogurt and orange juice.</p>
+          <p class="price">165,000 تومان</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1577805947697-89e18249d767?auto=format&fit=crop&w=900&q=80" alt="Strawberry Shake">
+        <div class="card-content">
+          <h3 id="f3Name">Strawberry Shake</h3>
+          <p id="f3Desc">Fresh strawberry, milk, ice cream and vanilla.</p>
+          <p class="price">180,000 تومان</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="fade">
+    <div class="title">
+      <h2 id="menuTitle">Complete Menu</h2>
+      <p id="menuSubtitle">A full selection of healthy and delicious drinks with ingredients in English and Persian.</p>
+    </div>
+
+    <div class="menu-list">
+
+      <div class="menu-category">
+        <h3 id="cat1Title">🥤 Detox Drinks</h3>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Green Detox" data-fa="دتاکس سبز">Green Detox</div>
+              <div class="item-name-fa" data-en="Sabz Detox" data-fa="اسفناج، خیار، لیمو، نعناع، عسل">اسفناج، خیار، لیمو، نعناع، عسل</div>
+            </div>
+            <div class="item-price">145,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: spinach, cucumber, lemon, mint, honey." data-fa="مواد تشکیل دهنده: اسفناج، خیار، لیمو، نعناع، عسل.">Ingredients: spinach, cucumber, lemon, mint, honey.</div>
+          <div class="item-desc-fa" data-en="Refreshing, cleansing and light." data-fa="نوشیدنی سبک، تازه و پاکسازی کننده.">Refreshing, cleansing and light.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Lemon Cleanse" data-fa="پاکسازی لیمویی">Lemon Cleanse</div>
+              <div class="item-name-fa" data-en="Lemon, ginger, apple, chia seeds" data-fa="لیمو، زنجبیل، سیب، دانه چیا">لیمو، زنجبیل، سیب، دانه چیا</div>
+            </div>
+            <div class="item-price">150,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: lemon, ginger, apple and chia seeds." data-fa="مواد تشکیل دهنده: لیمو، زنجبیل، سیب و دانه چیا.">Ingredients: lemon, ginger, apple and chia seeds.</div>
+          <div class="item-desc-fa" data-en="A bright and energizing detox choice." data-fa="یک انتخاب انرژی بخش و شاداب کننده.">A bright and energizing detox choice.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Cucumber Fresh" data-fa="خیار فرش">Cucumber Fresh</div>
+              <div class="item-name-fa" data-en="Cucumber, lime, mint, apple" data-fa="خیار، لایم، نعناع، سیب">خیار، لایم، نعناع، سیب</div>
+            </div>
+            <div class="item-price">140,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: cucumber, lime, mint and apple." data-fa="مواد تشکیل دهنده: خیار، لایم، نعناع و سیب.">Ingredients: cucumber, lime, mint and apple.</div>
+          <div class="item-desc-fa" data-en="Cool and refreshing for hot days." data-fa="خنک و مناسب روزهای گرم.">Cool and refreshing for hot days.</div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3 id="cat2Title">🍓 Smoothies</h3>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Berry Blast" data-fa="بری بلاست">Berry Blast</div>
+              <div class="item-name-fa" data-en="Strawberry, blueberry, banana, yogurt" data-fa="توت فرنگی، بلوبری، موز، ماست">توت فرنگی، بلوبری، موز، ماست</div>
+            </div>
+            <div class="item-price">175,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: strawberry, blueberry, banana and yogurt." data-fa="مواد تشکیل دهنده: توت فرنگی، بلوبری، موز و ماست.">Ingredients: strawberry, blueberry, banana and yogurt.</div>
+          <div class="item-desc-fa" data-en="Rich, fruity and naturally sweet." data-fa="میوه‌ای، غلیظ و با شیرینی طبیعی.">Rich, fruity and naturally sweet.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Mango Paradise" data-fa="بهشت انبه">Mango Paradise</div>
+              <div class="item-name-fa" data-en="Mango, banana, yogurt, orange juice" data-fa="انبه، موز، ماست، آب پرتقال">انبه، موز، ماست، آب پرتقال</div>
+            </div>
+            <div class="item-price">165,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: mango, banana, yogurt and orange juice." data-fa="مواد تشکیل دهنده: انبه، موز، ماست و آب پرتقال.">Ingredients: mango, banana, yogurt and orange juice.</div>
+          <div class="item-desc-fa" data-en="Creamy tropical flavor with a smooth finish." data-fa="طعم استوایی و بافتی نرم و خامه‌ای.">Creamy tropical flavor with a smooth finish.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Tropical Dream" data-fa="رویای استوایی">Tropical Dream</div>
+              <div class="item-name-fa" data-en="Pineapple, coconut milk, banana, mango" data-fa="آناناس، شیر نارگیل، موز، انبه">آناناس، شیر نارگیل، موز، انبه</div>
+            </div>
+            <div class="item-price">178,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: pineapple, coconut milk, banana and mango." data-fa="مواد تشکیل دهنده: آناناس، شیر نارگیل، موز و انبه.">Ingredients: pineapple, coconut milk, banana and mango.</div>
+          <div class="item-desc-fa" data-en="Exotic, smooth and refreshing." data-fa="خاص، نرم و بسیار طراوت بخش.">Exotic, smooth and refreshing.</div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3 id="cat3Title">🥛 Milkshakes</h3>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Oreo Shake" data-fa="اورئو شیک">Oreo Shake</div>
+              <div class="item-name-fa" data-en="Milk, vanilla ice cream, Oreo cookies" data-fa="شیر، بستنی وانیلی، بیسکویت اورئو">شیر، بستنی وانیلی، بیسکویت اورئو</div>
+            </div>
+            <div class="item-price">185,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: milk, vanilla ice cream and Oreo cookies." data-fa="مواد تشکیل دهنده: شیر، بستنی وانیلی و بیسکویت اورئو.">Ingredients: milk, vanilla ice cream and Oreo cookies.</div>
+          <div class="item-desc-fa" data-en="Classic creamy shake with cookie crunch." data-fa="میلک شیک کلاسیک با بافت کرمی و طعم بیسکویت.">Classic creamy shake with cookie crunch.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Strawberry Shake" data-fa="شیک توت فرنگی">Strawberry Shake</div>
+              <div class="item-name-fa" data-en="Milk, strawberry, ice cream, vanilla" data-fa="شیر، توت فرنگی، بستنی، وانیل">شیر، توت فرنگی، بستنی، وانیل</div>
+            </div>
+            <div class="item-price">180,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: milk, fresh strawberry, ice cream and vanilla." data-fa="مواد تشکیل دهنده: شیر، توت فرنگی تازه، بستنی و وانیل.">Ingredients: milk, fresh strawberry, ice cream and vanilla.</div>
+          <div class="item-desc-fa" data-en="Sweet, soft and popular with everyone." data-fa="شیرین، لطیف و بسیار پرطرفدار.">Sweet, soft and popular with everyone.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Peanut Butter Shake" data-fa="شیک کره بادام زمینی">Peanut Butter Shake</div>
+              <div class="item-name-fa" data-en="Milk, banana, peanut butter, ice cream" data-fa="شیر، موز، کره بادام زمینی، بستنی">شیر، موز، کره بادام زمینی، بستنی</div>
+            </div>
+            <div class="item-price">190,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: milk, banana, peanut butter and ice cream." data-fa="مواد تشکیل دهنده: شیر، موز، کره بادام زمینی و بستنی.">Ingredients: milk, banana, peanut butter and ice cream.</div>
+          <div class="item-desc-fa" data-en="Nutty, rich and filling." data-fa="غلیظ، مقوی و با طعم دلچسب بادام زمینی.">Nutty, rich and filling.</div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3 id="cat4Title">🍊 Fresh Juices</h3>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Orange Juice" data-fa="آب پرتقال">Orange Juice</div>
+              <div class="item-name-fa" data-en="Fresh orange" data-fa="پرتقال تازه">پرتقال تازه</div>
+            </div>
+            <div class="item-price">120,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: freshly squeezed oranges." data-fa="مواد تشکیل دهنده: پرتقال تازه آبگیری شده.">Ingredients: freshly squeezed oranges.</div>
+          <div class="item-desc-fa" data-en="Classic daily vitamin boost." data-fa="انتخابی کلاسیک برای انرژی روزانه.">Classic daily vitamin boost.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Carrot Juice" data-fa="آب هویج">Carrot Juice</div>
+              <div class="item-name-fa" data-en="Fresh carrot" data-fa="هویج تازه">هویج تازه</div>
+            </div>
+            <div class="item-price">125,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: fresh carrot juice." data-fa="مواد تشکیل دهنده: آب هویج تازه.">Ingredients: fresh carrot juice.</div>
+          <div class="item-desc-fa" data-en="Naturally sweet and full of color." data-fa="شیرینی طبیعی و سرشار از طراوت.">Naturally sweet and full of color.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Pomegranate Juice" data-fa="آب انار">Pomegranate Juice</div>
+              <div class="item-name-fa" data-en="Fresh pomegranate" data-fa="انار تازه">انار تازه</div>
+            </div>
+            <div class="item-price">155,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: freshly pressed pomegranate." data-fa="مواد تشکیل دهنده: آب انار تازه.">Ingredients: freshly pressed pomegranate.</div>
+          <div class="item-desc-fa" data-en="Bold flavor, rich color and antioxidants." data-fa="طعم قوی، رنگ جذاب و سرشار از آنتی اکسیدان.">Bold flavor, rich color and antioxidants.</div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3 id="cat5Title">💪 Protein Shakes</h3>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Banana Protein" data-fa="پروتئین موز">Banana Protein</div>
+              <div class="item-name-fa" data-en="Banana, milk, oats, protein powder" data-fa="موز، شیر، جو دوسر، پودر پروتئین">موز، شیر، جو دوسر، پودر پروتئین</div>
+            </div>
+            <div class="item-price">195,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: banana, milk, oats and protein powder." data-fa="مواد تشکیل دهنده: موز، شیر، جو دوسر و پودر پروتئین.">Ingredients: banana, milk, oats and protein powder.</div>
+          <div class="item-desc-fa" data-en="Perfect after workout or as a filling drink." data-fa="مناسب بعد از تمرین یا به عنوان نوشیدنی مقوی.">Perfect after workout or as a filling drink.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Chocolate Protein" data-fa="پروتئین شکلات">Chocolate Protein</div>
+              <div class="item-name-fa" data-en="Cocoa, milk, banana, protein powder" data-fa="کاکائو، شیر، موز، پودر پروتئین">کاکائو، شیر، موز، پودر پروتئین</div>
+            </div>
+            <div class="item-price">200,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: cocoa, milk, banana and protein powder." data-fa="مواد تشکیل دهنده: کاکائو، شیر، موز و پودر پروتئین.">Ingredients: cocoa, milk, banana and protein powder.</div>
+          <div class="item-desc-fa" data-en="Strong chocolate taste with functional nutrition." data-fa="طعم قوی شکلات همراه با ارزش غذایی بالا.">Strong chocolate taste with functional nutrition.</div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3 id="cat6Title">⭐ Seasonal Specials</h3>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Summer Sunset" data-fa="غروب تابستانی">Summer Sunset</div>
+              <div class="item-name-fa" data-en="Watermelon, strawberry, lime, mint" data-fa="هندوانه، توت فرنگی، لایم، نعناع">هندوانه، توت فرنگی، لایم، نعناع</div>
+            </div>
+            <div class="item-price">170,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: watermelon, strawberry, lime and mint." data-fa="مواد تشکیل دهنده: هندوانه، توت فرنگی، لایم و نعناع.">Ingredients: watermelon, strawberry, lime and mint.</div>
+          <div class="item-desc-fa" data-en="Light, colorful and perfect for summer." data-fa="سبک، رنگارنگ و مناسب فصل تابستان.">Light, colorful and perfect for summer.</div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-top">
+            <div>
+              <div class="item-name" data-en="Winter Immunity" data-fa="ایمنی زمستان">Winter Immunity</div>
+              <div class="item-name-fa" data-en="Orange, carrot, ginger, turmeric, honey" data-fa="پرتقال، هویج، زنجبیل، زردچوبه، عسل">پرتقال، هویج، زنجبیل، زردچوبه، عسل</div>
+            </div>
+            <div class="item-price">175,000 تومان</div>
+          </div>
+          <div class="item-desc" data-en="Ingredients: orange, carrot, ginger, turmeric and honey." data-fa="مواد تشکیل دهنده: پرتقال، هویج، زنجبیل، زردچوبه و عسل.">Ingredients: orange, carrot, ginger, turmeric and honey.</div>
+          <div class="item-desc-fa" data-en="Warm, healthy and great for cooler days." data-fa="سالم، مقوی و مناسب روزهای سرد.">Warm, healthy and great for cooler days.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="fade">
+    <div class="title">
+      <h2 id="impactTitle">Our Impact</h2>
+      <p id="impactText">Fresh ingredients, happy customers, and a menu designed for healthy taste.</p>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="counter" data-target="10000">0</div>
+        <p id="stat1">Drinks Served</p>
+      </div>
+      <div class="stat">
+        <div class="counter" data-target="1500">0</div>
+        <p id="stat2">Happy Customers</p>
+      </div>
+      <div class="stat">
+        <div class="counter" data-target="25">0</div>
+        <p id="stat3">Menu Items</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="fade">
+    <div class="title">
+      <h2 id="galleryTitle">Gallery</h2>
+      <p id="galleryText">A visual taste of our fresh drinks and healthy atmosphere.</p>
+    </div>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1497534446932-c925b458314e?auto=format&fit=crop&w=900&q=80" alt="Gallery 1">
+      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80" alt="Gallery 2">
+      <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80" alt="Gallery 3">
+      <img src="https://images.unsplash.com/photo-1505253216365-1c0f73d9b2e7?auto=format&fit=crop&w=900&q=80" alt="Gallery 4">
+    </div>
+  </section>
+
+  <section id="faq" class="fade">
+    <div class="title">
+      <h2 id="faqTitle">FAQ</h2>
+      <p id="faqText">Answers to common customer questions.</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" data-en="Are ingredients fresh?" data-fa="آیا مواد اولیه تازه هستند؟">Are ingredients fresh?</div>
+      <div class="faq-a" data-en="Yes, all drinks are prepared daily with fresh ingredients." data-fa="بله، همه نوشیدنی‌ها روزانه با مواد اولیه تازه تهیه می‌شوند.">Yes, all drinks are prepared daily with fresh ingredients.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" data-en="Can I customize drinks?" data-fa="آیا امکان شخصی سازی نوشیدنی‌ها وجود دارد؟">Can I customize drinks?</div>
+      <div class="faq-a" data-en="Absolutely. You can request changes based on your taste and dietary needs." data-fa="بله، شما می‌توانید بر اساس سلیقه و نیاز غذایی خود تغییرات درخواست کنید.">Absolutely. You can request changes based on your taste and dietary needs.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" data-en="Do you offer takeaway orders?" data-fa="آیا سفارش بیرون بر دارید؟">Do you offer takeaway orders?</div>
+      <div class="faq-a" data-en="Yes, takeaway and direct contact ordering are available." data-fa="بله، سفارش بیرون بر و سفارش مستقیم از طریق راه‌های ارتباطی امکان پذیر است.">Yes, takeaway and direct contact ordering are available.</div>
+    </div>
+  </section>
+
+  <section id="contact" class="fade">
+    <div class="contact">
+      <h2>Santé</h2>
+      <p id="contactText1">Natural Drinks • Detox • Smoothies • Milkshakes</p>
+      <p id="contactText2">Contact us through Instagram, WhatsApp or phone.</p>
+
+      <div class="contact-actions">
+        <a href="https://instagram.com/yourpage" target="_blank" id="instagramBtn">Instagram</a>
+        <a href="https://wa.me/989000000000" target="_blank" id="whatsappBtn">WhatsApp</a>
+        <a href="tel:+989000000000" id="phoneBtn">Call Us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footerText">© 2026 Santé. All rights reserved.</footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('show');
+      });
+    });
+
+    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.onclick = () => {
+        const item = q.parentElement;
+        const a = q.nextElementSibling;
+        const isOpen = a.style.display === 'block';
+
+        document.querySelectorAll('.faq-item').forEach(f => {
+          f.classList.remove('active');
+          f.querySelector('.faq-a').style.display = 'none';
+        });
+
+        if (!isOpen) {
+          a.style.display = 'block';
+          item.classList.add('active');
+        }
+      };
+    });
+
+    let countersStarted = false;
+    function startCounters(){
+      if(countersStarted) return;
+      countersStarted = true;
+
+      document.querySelectorAll('.counter').forEach(counter => {
+        let target = +counter.dataset.target;
+        let count = 0;
+        function update(){
+          count += target / 100;
+          if(count < target){
+            counter.innerText = Math.floor(count);
+            requestAnimationFrame(update);
+          } else {
+            counter.innerText = target + '+';
+          }
+        }
+        update();
+      });
+    }
+
+    const statsSection = document.querySelector('.stats');
+    const statsObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          startCounters();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    statsObserver.observe(statsSection);
+
+    function toggleMobileMenu(){
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.classList.toggle('show');
+      document.body.classList.toggle('menu-open');
+    }
+
+    document.querySelectorAll('.mobile-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileNav').classList.remove('show');
+        document.body.classList.remove('menu-open');
+      });
+    });
+
+    let fa = false;
+
+    function setText(id, en, faText){
+      document.getElementById(id).innerText = fa ? faText : en;
+    }
+
+    function toggleLang(){
+      fa = !fa;
+      document.body.dir = fa ? 'rtl' : 'ltr';
+      document.documentElement.lang = fa ? 'fa' : 'en';
+
+      setText('navFeatured','Featured','ویژه');
+      setText('navMenu','Menu','منو');
+      setText('navGallery','Gallery','گالری');
+      setText('navFaq','FAQ','سوالات متداول');
+      setText('navContact','Contact','تماس');
+      setText('orderBtnNav','Order Now','سفارش');
+      setText('mNavFeatured','Featured','ویژه');
+      setText('mNavMenu','Menu','منو');
+      setText('mNavGallery','Gallery','گالری');
+      setText('mNavFaq','FAQ','سوالات متداول');
+      setText('mNavContact','Contact','تماس');
+      setText('mNavOrder','Order Now','سفارش');
+
+      setText('heroTitle','Fresh • Natural • Healthy','تازه • طبیعی • سالم');
+      setText('heroText','Premium detox drinks, smoothies, milkshakes, and healthy beverages prepared with quality ingredients and crafted for taste and wellness.','نوشیدنی‌های دتاکس، اسموتی، میلک شیک و نوشیدنی‌های سالم با مواد اولیه باکیفیت و طعمی عالی برای سلامتی شما.');
+      setText('heroBtn','Explore Menu','مشاهده منو');
+      setText('heroContactBtn','Contact Us','تماس با ما');
+
+      setText('featuredTitle','Featured Drinks','نوشیدنی‌های ویژه');
+      setText('featuredText','Some of our customer favorites, prepared fresh every day.','برخی از محبوب‌ترین نوشیدنی‌های ما که هر روز تازه تهیه می‌شوند.');
+      setText('f1Name','Green Detox','دتاکس سبز');
+      setText('f1Desc','Spinach, cucumber, lemon, mint and honey.','اسفناج، خیار، لیمو، نعناع و عسل.');
+      setText('f2Name','Mango Smoothie','اسموتی انبه');
+      setText('f2Desc','Mango, banana, yogurt and orange juice.','انبه، موز، ماست و آب پرتقال.');
+      setText('f3Name','Strawberry Shake','شیک توت فرنگی');
+      setText('f3Desc','Fresh strawberry, milk, ice cream and vanilla.','توت فرنگی تازه، شیر، بستنی و وانیل.');
+
+      setText('menuTitle','Complete Menu','منوی کامل');
+      setText('menuSubtitle','A full selection of healthy and delicious drinks with ingredients in English and Persian.','مجموعه‌ای کامل از نوشیدنی‌های سالم و خوشمزه با توضیحات فارسی و انگلیسی.');
+      setText('cat1Title','🥤 Detox Drinks','🥤 نوشیدنی‌های دتاکس');
+      setText('cat2Title','🍓 Smoothies','🍓 اسموتی‌ها');
+      setText('cat3Title','🥛 Milkshakes','🥛 میلک شیک‌ها');
+      setText('cat4Title','🍊 Fresh Juices','🍊 آبمیوه‌های تازه');
+      setText('cat5Title','💪 Protein Shakes','💪 شیک‌های پروتئینی');
+      setText('cat6Title','⭐ Seasonal Specials','⭐ پیشنهادهای فصلی');
+
+      document.querySelectorAll('[data-en][data-fa]').forEach(el => {
+        el.innerText = fa ? el.dataset.fa : el.dataset.en;
+      });
+
+      setText('impactTitle','Our Impact','تأثیر ما');
+      setText('impactText','Fresh ingredients, happy customers, and a menu designed for healthy taste.','مواد اولیه تازه، مشتریان راضی و منویی طراحی شده برای طعمی سالم.');
+      setText('stat1','Drinks Served','نوشیدنی سرو شده');
+      setText('stat2','Happy Customers','مشتری راضی');
+      setText('stat3','Menu Items','آیتم منو');
+
+      setText('galleryTitle','Gallery','گالری');
+      setText('galleryText','A visual taste of our fresh drinks and healthy atmosphere.','نمایی از نوشیدنی‌های تازه و فضای سالم مجموعه ما.');
+
+      setText('faqTitle','FAQ','سوالات متداول');
+      setText('faqText','Answers to common customer questions.','پاسخ به سوالات رایج مشتریان.');
+
+      setText('contactText1','Natural Drinks • Detox • Smoothies • Milkshakes','نوشیدنی طبیعی • دتاکس • اسموتی • میلک شیک');
+      setText('contactText2','Contact us through Instagram, WhatsApp or phone.','از طریق اینستاگرام، واتساپ یا تماس تلفنی با ما در ارتباط باشید.');
+      setText('instagramBtn','Instagram','اینستاگرام');
+      setText('whatsappBtn','WhatsApp','واتساپ');
+      setText('phoneBtn','Call Us','تماس با ما');
+
+      setText('footerText','© 2026 Santé. All rights reserved.','© 2026 سانته. تمامی حقوق محفوظ است.');
+    }
+  </script>
+</body>
+</html>
